@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brother Baba Budan — Melbourne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #F0EBE1;
+    --ink: #1A1714;
+    --char: #2C2820;
+    --rust: #8B3A1F;
+    --rust-light: #C4612E;
+    --warm-mid: #7A6F64;
+    --warm-light: #D4C9BB;
+    --off-white: #FAF7F2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--ink);
+    color: var(--cream);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 1.4rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+    mix-blend-mode: normal;
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: rgba(26,23,20,0.96); backdrop-filter: blur(8px); }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--warm-light);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-cta {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    border: 1px solid var(--rust-light);
+    padding: 0.45rem 1.2rem;
+    border-radius: 0;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .nav-cta:hover { background: var(--rust-light); color: var(--cream); }
+
+  /* ─── HERO ─── */
+  .hero {
+    height: 100vh;
+    position: relative;
+    display: flex; align-items: flex-end;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/06/62/72/brother-baba-budan.jpg?w=1200&h=800&s=1') center/cover no-repeat;
+    filter: brightness(0.45);
+    transform: scale(1.05);
+    transition: transform 8s ease-out;
+  }
+  .hero-bg.loaded { transform: scale(1); }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,23,20,0.98) 0%, rgba(26,23,20,0.3) 50%, transparent 100%);
+  }
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 3rem 5rem;
+    max-width: 820px;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 1.2rem;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+  }
+  .hero-title em { font-style: italic; color: var(--warm-light); }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--warm-mid);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+  .hero-meta {
+    display: flex; gap: 2.5rem; align-items: center;
+    border-top: 1px solid rgba(122,111,100,0.3);
+    padding-top: 1.5rem;
+  }
+  .hero-meta-item { font-size: 0.78rem; color: var(--warm-mid); letter-spacing: 0.08em; }
+  .hero-meta-item span { display: block; color: var(--cream); font-size: 0.92rem; margin-top: 0.2rem; }
+  .chairs-tag {
+    position: absolute;
+    top: 3rem; right: 3rem;
+    writing-mode: vertical-rl;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-mid);
+    z-index: 2;
+  }
+
+  /* ─── LEGEND BAND ─── */
+  .legend-band {
+    background: var(--rust);
+    padding: 1.2rem 3rem;
+    display: flex; align-items: center; gap: 2rem;
+    overflow: hidden;
+  }
+  .legend-text {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--cream);
+    white-space: nowrap;
+    animation: ticker 28s linear infinite;
+  }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── STORY ─── */
+  .story {
+    padding: 7rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .story-image-stack { position: relative; height: 560px; }
+  .story-img-main {
+    position: absolute;
+    width: 78%; height: 80%;
+    object-fit: cover;
+    top: 0; left: 0;
+    filter: brightness(0.85);
+  }
+  .story-img-accent {
+    position: absolute;
+    width: 55%; height: 50%;
+    object-fit: cover;
+    bottom: 0; right: 0;
+    border: 4px solid var(--ink);
+    filter: brightness(0.9);
+  }
+  .story-year {
+    position: absolute;
+    bottom: 1.5rem; left: 1.5rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: rgba(240,235,225,0.12);
+    line-height: 1;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 1.2rem;
+  }
+  .story-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .story-body {
+    font-size: 0.95rem;
+    color: var(--warm-mid);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 1.2rem;
+  }
+  .pull-quote {
+    border-left: 2px solid var(--rust);
+    padding-left: 1.2rem;
+    margin: 2rem 0;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--warm-light);
+    line-height: 1.5;
+  }
+
+  /* ─── CHAIRS FEATURE ─── */
+  .chairs-section {
+    padding: 0 3rem 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .chairs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    height: 380px;
+  }
+  .chairs-grid img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75); transition: filter 0.4s; }
+  .chairs-grid img:hover { filter: brightness(0.95); }
+  .chairs-caption {
+    margin-top: 1.5rem;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .chairs-caption-text {
+    font-size: 0.8rem;
+    color: var(--warm-mid);
+    letter-spacing: 0.06em;
+    max-width: 380px;
+    line-height: 1.6;
+  }
+  .chairs-caption-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: rgba(240,235,225,0.1);
+    line-height: 1;
+  }
+
+  /* ─── COFFEE ─── */
+  .coffee-section {
+    background: var(--char);
+    padding: 7rem 3rem;
+  }
+  .coffee-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .coffee-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid rgba(122,111,100,0.25);
+    padding-bottom: 2rem;
+  }
+  .coffee-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 400;
+    color: var(--cream);
+  }
+  .coffee-desc {
+    font-size: 0.9rem;
+    color: var(--warm-mid);
+    max-width: 320px;
+    text-align: right;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .coffee-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+  .coffee-card {
+    padding: 1.8rem 0;
+    border-top: 1px solid rgba(122,111,100,0.3);
+    transition: border-color 0.3s;
+  }
+  .coffee-card:hover { border-color: var(--rust-light); }
+  .coffee-card-img {
+    width: 100%; height: 200px;
+    object-fit: cover;
+    margin-bottom: 1.2rem;
+    filter: brightness(0.8);
+  }
+  .coffee-card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .coffee-card-desc {
+    font-size: 0.82rem;
+    color: var(--warm-mid);
+    line-height: 1.6;
+  }
+
+  /* ─── MENU ─── */
+  .menu-section {
+    padding: 7rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .menu-header { margin-bottom: 4rem; }
+  .menu-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4rem;
+  }
+  .menu-category-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rust-light);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid rgba(122,111,100,0.3);
+  }
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(122,111,100,0.1);
+  }
+  .menu-item-name { font-size: 0.9rem; color: var(--cream); }
+  .menu-item-price { font-size: 0.85rem; color: var(--warm-mid); }
+  .menu-item-desc {
+    font-size: 0.78rem;
+    color: var(--warm-mid);
+    padding: 0.3rem 0 0.5rem;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+  }
+
+  /* ─── GALLERY ─── */
+  .gallery-section {
+    background: var(--char);
+    padding: 7rem 3rem;
+  }
+  .gallery-inner { max-width: 1200px; margin: 0 auto; }
+  .gallery-header { margin-bottom: 3rem; }
+  .gallery-bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: 260px 260px;
+    gap: 3px;
+  }
+  .g1 { grid-column: 1 / 6; grid-row: 1; }
+  .g2 { grid-column: 6 / 9; grid-row: 1; }
+  .g3 { grid-column: 9 / 13; grid-row: 1; }
+  .g4 { grid-column: 1 / 4; grid-row: 2; }
+  .g5 { grid-column: 4 / 9; grid-row: 2; }
+  .g6 { grid-column: 9 / 13; grid-row: 2; }
+  .gallery-bento img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.8) saturate(0.85);
+    transition: filter 0.4s, transform 0.6s;
+    overflow: hidden;
+  }
+  .gallery-bento div { overflow: hidden; }
+  .gallery-bento div:hover img { filter: brightness(1) saturate(1); transform: scale(1.04); }
+
+  /* ─── REVIEWS ─── */
+  .reviews-section {
+    padding: 7rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .reviews-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 3.5rem;
+  }
+  .reviews-score {
+    text-align: right;
+  }
+  .reviews-score .score {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .reviews-score .score-sub { font-size: 0.78rem; color: var(--warm-mid); letter-spacing: 0.1em; margin-top: 0.3rem; }
+  .reviews-stars { color: var(--rust-light); font-size: 1.1rem; margin: 0.3rem 0; }
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+  .review-card {
+    padding: 2rem;
+    border: 1px solid rgba(122,111,100,0.2);
+    position: relative;
+  }
+  .review-quote-mark {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem;
+    color: var(--rust);
+    opacity: 0.3;
+    line-height: 0.6;
+    margin-bottom: 1rem;
+  }
+  .review-text {
+    font-size: 0.88rem;
+    color: var(--warm-light);
+    line-height: 1.7;
+    font-style: italic;
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1.5rem;
+  }
+  .review-author { font-size: 0.75rem; color: var(--warm-mid); letter-spacing: 0.08em; }
+  .review-source { font-size: 0.68rem; color: var(--rust-light); margin-top: 0.2rem; }
+
+  /* ─── VISIT ─── */
+  .visit-section {
+    background: var(--cream);
+    color: var(--ink);
+    padding: 6rem 3rem;
+  }
+  .visit-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+  .visit-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .visit-body { font-size: 0.92rem; color: #6B5E52; line-height: 1.8; margin-bottom: 2rem; }
+  .visit-info-block { margin-bottom: 2rem; }
+  .visit-label { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust); margin-bottom: 0.5rem; }
+  .visit-val { font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
+  .visit-directions {
+    display: inline-block;
+    margin-top: 2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rust);
+    border-bottom: 1px solid var(--rust);
+    text-decoration: none;
+    padding-bottom: 2px;
+    transition: color 0.2s;
+  }
+  .visit-map {
+    background: #D4C9BB;
+    height: 340px;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .visit-map iframe {
+    width: 100%; height: 100%;
+    border: none;
+    filter: grayscale(0.4) sepia(0.2);
+  }
+  .hours-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 2rem;
+  }
+  .hours-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.35rem 0; border-bottom: 1px solid rgba(139,58,31,0.12); }
+  .hours-day { color: #6B5E52; }
+  .hours-time { color: var(--ink); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #120F0D;
+    padding: 4rem 3rem 2.5rem;
+    color: var(--warm-mid);
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(122,111,100,0.2);
+    margin-bottom: 2rem;
+  }
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--cream);
+    letter-spacing: 0.05em;
+  }
+  .footer-brand span { display: block; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--warm-mid); margin-top: 0.3rem; }
+  .footer-cols { display: flex; gap: 5rem; }
+  .footer-col-title { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--rust-light); margin-bottom: 1rem; }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 0.6rem; }
+  .footer-links a { color: var(--warm-mid); text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--cream); }
+  .footer-bottom { display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(122,111,100,0.6); }
+  .footer-bottom a { color: rgba(122,111,100,0.6); text-decoration: none; }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero-content { padding: 0 1.5rem 4rem; }
+    .story { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    .story-image-stack { height: 320px; }
+    .coffee-grid { grid-template-columns: repeat(2, 1fr); }
+    .menu-cols { grid-template-columns: 1fr; gap: 2.5rem; }
+    .gallery-bento { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .g1,.g2,.g3,.g4,.g5,.g6 { grid-column: auto; grid-row: auto; height: 200px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .visit-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .footer-top { flex-direction: column; gap: 2rem; }
+    .footer-cols { gap: 3rem; flex-wrap: wrap; }
+    section.chairs-section, section.menu-section, .gallery-section, .reviews-section { padding: 4rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Brother Baba Budan</a>
+  <ul class="nav-links">
+    <li><a href="#story">Our Story</a></li>
+    <li><a href="#coffee">Coffee</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#visit">Visit</a></li>
+  </ul>
+  <a href="tel:+61396060449" class="nav-cta">Call Us</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <span class="chairs-tag">Chairs on ceiling since forever</span>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Seven Seeds — Melbourne CBD since 2008</p>
+    <h1 class="hero-title">Coffee<br>as <em>rebellion.</em></h1>
+    <p class="hero-sub">Named for the legendary merchant who smuggled seven coffee seeds out of Yemen, changing the world's relationship with the bean forever.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">Location<span>359 Little Bourke St</span></div>
+      <div class="hero-meta-item">Hours<span>Mon–Sat 7am–5pm</span></div>
+      <div class="hero-meta-item">Rating<span>4.5 ★ — #1 Coffee in Melbourne</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- LEGEND BAND -->
+<div class="legend-band">
+  <div class="legend-text">
+    Named for Baba Budan &nbsp;&nbsp;·&nbsp;&nbsp; The man who smuggled coffee to the world &nbsp;&nbsp;·&nbsp;&nbsp; Seven seeds in his beard &nbsp;&nbsp;·&nbsp;&nbsp; A rebellious spirit &nbsp;&nbsp;·&nbsp;&nbsp; Melbourne's original specialty roaster &nbsp;&nbsp;·&nbsp;&nbsp; 359 Little Bourke Street &nbsp;&nbsp;·&nbsp;&nbsp; Named for Baba Budan &nbsp;&nbsp;·&nbsp;&nbsp; The man who smuggled coffee to the world &nbsp;&nbsp;·&nbsp;&nbsp; Seven seeds in his beard &nbsp;&nbsp;·&nbsp;&nbsp; A rebellious spirit &nbsp;&nbsp;·&nbsp;&nbsp; Melbourne's original specialty roaster &nbsp;&nbsp;·&nbsp;&nbsp; 359 Little Bourke Street &nbsp;&nbsp;·&nbsp;&nbsp;
+  </div>
+</div>
+
+<!-- STORY -->
+<section id="story" style="background: var(--ink);">
+  <div class="story fade-in">
+    <div class="story-image-stack">
+      <img class="story-img-main" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/10/77/db/31/photo0jpg.jpg?w=900&h=700&s=1" alt="Interior of Brother Baba Budan cafe with chairs hanging from ceiling">
+      <img class="story-img-accent" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/7d/d6/fd/brother-baba-budan.jpg?w=600&h=600&s=1" alt="Coffee at Brother Baba Budan">
+      <div class="story-year">BBB</div>
+    </div>
+    <div>
+      <p class="section-label">Our Story</p>
+      <h2 class="story-title">The legend of the seven seeds</h2>
+      <p class="story-body">In the 15th century, the mystic Baba Budan secreted seven coffee seeds from Mocha to India — defying the Arab traders' monopoly and forever changing what the world woke up to. That same rebellious spirit lives in this café.</p>
+      <div class="pull-quote">"An original in the Melbourne coffee scene, known for exceptional Seven Seeds coffee and the passion to serve it."</div>
+      <p class="story-body">Step inside and you'll notice the chairs. Not on the floor — hanging from the ceiling, layered into a dense canopy of wood and metal above your head. It's not a gimmick. It's a statement: ordinary spaces can be made extraordinary with the same boldness it takes to smuggle seeds across a border.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHAIRS FEATURE -->
+<section class="chairs-section fade-in">
+  <div class="chairs-grid">
+    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/fd/82/a1/brother-baba-budan.jpg?w=600&h=600&s=1" alt="Chairs hanging from ceiling">
+    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1d/fd/82/88/brother-baba-budan.jpg?w=600&h=600&s=1" alt="Interior detail">
+    <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/0c/a1/cf/photo0jpg.jpg?w=600&h=600&s=1" alt="Barista at work">
+  </div>
+  <div class="chairs-caption">
+    <p class="chairs-caption-text">Look up. A hundred chairs hang above you — the café's signature installation, turning the ceiling into a meditation on space, weight, and the art of turning a place upside down.</p>
+    <span class="chairs-caption-num">↑</span>
+  </div>
+</section>
+
+<!-- COFFEE -->
+<section id="coffee" class="coffee-section fade-in">
+  <div class="coffee-inner">
+    <div class="coffee-header">
+      <div>
+        <p class="section-label">What we serve</p>
+        <h2 class="coffee-title">Coffee with a point of view</h2>
+      </div>
+      <p class="coffee-desc">Every cup pours from Seven Seeds' own roastery — direct-trade relationships, seasonal micro-releases, and an obsession with what's in the cup.</p>
+    </div>
+    <div class="coffee-grid">
+      <div class="coffee-card">
+        <img class="coffee-card-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/02/70/01/3b/cappuccino.jpg?w=500&h=400&s=1" alt="Cappuccino">
+        <h3 class="coffee-card-name">Espresso &amp; Milk</h3>
+        <p class="coffee-card-desc">Flat white, latte, cappuccino — all built on the Seven Seeds espresso blend. Roasted in-house, dialled in daily.</p>
+      </div>
+      <div class="coffee-card">
+        <img class="coffee-card-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/6f/78/cf/caption.jpg?w=600&h=400&s=1" alt="Filter coffee">
+        <h3 class="coffee-card-name">Filter &amp; Pour-over</h3>
+        <p class="coffee-card-desc">Single origin Hario V60 and batch brew, rotating weekly. Ask the barista what's on — the answer is always worth the question.</p>
+      </div>
+      <div class="coffee-card">
+        <img class="coffee-card-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/25/a0/97/0d/caption.jpg?w=600&h=400&s=1" alt="Specialty pastry">
+        <h3 class="coffee-card-name">Seasonal Pastries</h3>
+        <p class="coffee-card-desc">Baked by Suburbia. The croissant, coffee scroll, and rotating specials change with what's good — show up early, they go fast.</p>
+      </div>
+      <div class="coffee-card">
+        <img class="coffee-card-img" src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/22/01/94/e9/caption.jpg?w=600&h=400&s=1" alt="Coffee beans and merchandise">
+        <h3 class="coffee-card-name">Beans &amp; Merch</h3>
+        <p class="coffee-card-desc">Take the roast home. Retail bags of the espresso blend, seasonal single-origins, and the occasional micro-release for those in the know.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="menu-section fade-in">
+  <div class="menu-header">
+    <p class="section-label">The menu</p>
+    <h2 class="story-title" style="max-width:440px;">Simple things, done with precision</h2>
+  </div>
+  <div class="menu-cols">
+    <div>
+      <h3 class="menu-category-title">Coffee</h3>
+      <div class="menu-item"><span class="menu-item-name">Espresso</span><span class="menu-item-price">$4.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Macchiato</span><span class="menu-item-price">$4.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Flat White</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Cappuccino</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Latte</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Long Black</span><span class="menu-item-price">$4.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Mocha</span><span class="menu-item-price">$5.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Filter Coffee</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Cold Brew</span><span class="menu-item-price">$7.00</span></div>
+      <h3 class="menu-category-title" style="margin-top:1.5rem;">Tea &amp; Other</h3>
+      <div class="menu-item"><span class="menu-item-name">Chai Latte</span><span class="menu-item-price">$5.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Hot Chocolate</span><span class="menu-item-price">$5.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Loose Leaf Tea</span><span class="menu-item-price">$4.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Juice</span><span class="menu-item-price">$6.00</span></div>
+    </div>
+    <div>
+      <h3 class="menu-category-title">Pastries</h3>
+      <div class="menu-item"><span class="menu-item-name">Plain Croissant</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item-desc">Laminated, daily baked</div>
+      <div class="menu-item"><span class="menu-item-name">Almond Croissant</span><span class="menu-item-price">$6.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Coffee Scroll</span><span class="menu-item-price">$5.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Orange Bread</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Banana Bread</span><span class="menu-item-price">$5.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Danish</span><span class="menu-item-price">$5.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Chocolate Croissant</span><span class="menu-item-price">$6.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Carrot Cake</span><span class="menu-item-price">$6.50</span></div>
+      <div class="menu-item"><span class="menu-item-name">Focaccia</span><span class="menu-item-price">$6.00</span></div>
+      <div class="menu-item-desc">Veg or meat, ask daily</div>
+    </div>
+    <div>
+      <h3 class="menu-category-title">Retail</h3>
+      <div class="menu-item"><span class="menu-item-name">Espresso Blend 250g</span><span class="menu-item-price">$19.00</span></div>
+      <div class="menu-item-desc">Caramel, blackcurrant, citrus</div>
+      <div class="menu-item"><span class="menu-item-name">Seasonal Filter 250g</span><span class="menu-item-price">$22.00+</span></div>
+      <div class="menu-item-desc">Rotating single-origin, ask in-store</div>
+      <div class="menu-item"><span class="menu-item-name">Micro-Release 100g</span><span class="menu-item-price">$28.00+</span></div>
+      <div class="menu-item-desc">Limited run, seasonal — when available</div>
+      <div class="menu-item"><span class="menu-item-name">Seven Seeds Tote</span><span class="menu-item-price">$18.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">BBB Enamel Mug</span><span class="menu-item-price">$32.00</span></div>
+      <div class="menu-item"><span class="menu-item-name">Keepcup 8oz</span><span class="menu-item-price">$42.00</span></div>
+      <p style="font-size:0.75rem; color:var(--warm-mid); margin-top:1.5rem; font-style:italic; line-height:1.6;">Prices approximate. Menu changes seasonally — pastries sell out early. Come before 9am for the full range.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery" class="gallery-section fade-in">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <p class="section-label">Inside BBB</p>
+      <h2 class="story-title">A space unlike any other</h2>
+    </div>
+    <div class="gallery-bento">
+      <div class="g1"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1a/ae/62/87/359-little-bourke-st.jpg?w=900&h=600&s=1" alt="Exterior facade"></div>
+      <div class="g2"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/e6/2f/74/brother-baba-budan.jpg?w=600&h=600&s=1" alt="Interior"></div>
+      <div class="g3"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/06/62/72/brother-baba-budan.jpg?w=800&h=800&s=1" alt="Coffee"></div>
+      <div class="g4"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/20/11/50/menu-board.jpg?w=600&h=600&s=1" alt="Menu board"></div>
+      <div class="g5"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/26/6f/78/ce/caption.jpg?w=900&h=600&s=1" alt="Cafe scene"></div>
+      <div class="g6"><img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/02/70/01/3b/cappuccino.jpg?w=600&h=600&s=1" alt="Cappuccino art"></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews" class="reviews-section fade-in">
+  <div class="reviews-header">
+    <div>
+      <p class="section-label">What people say</p>
+      <h2 class="story-title">The regulars say it best</h2>
+    </div>
+    <div class="reviews-score">
+      <div class="score">4.5</div>
+      <div class="reviews-stars">★★★★½</div>
+      <div class="score-sub">#1 Coffee in Melbourne · 3,334 reviews</div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-quote-mark">"</div>
+      <p class="review-text">The chairs on the ceiling are reason enough to visit, but the coffee is what keeps you coming back. Exceptional flat white, genuinely one of the best in the city.</p>
+      <p class="review-author">Sarah M., Melbourne</p>
+      <p class="review-source">Google Reviews ★★★★★</p>
+    </div>
+    <div class="review-card">
+      <div class="review-quote-mark">"</div>
+      <p class="review-text">A Melbourne institution that doesn't rest on its reputation. The baristas are passionate, the beans are serious, and the croissants from Suburbia are dangerously good.</p>
+      <p class="review-author">James K., Fitzroy</p>
+      <p class="review-source">TripAdvisor ★★★★★</p>
+    </div>
+    <div class="review-card">
+      <div class="review-quote-mark">"</div>
+      <p class="review-text">Tiny, packed, and absolutely worth it. Hidden on Little Bourke — blink and you'll miss it. The filter rotating menu alone is worth making a special trip for.</p>
+      <p class="review-author">Priya T., Southbank</p>
+      <p class="review-source">TripAdvisor ★★★★★</p>
+    </div>
+  </div>
+</section>
+
+<!-- VISIT -->
+<section id="visit" class="visit-section fade-in">
+  <div class="visit-inner">
+    <div>
+      <p class="section-label" style="color:var(--rust);">Find us</p>
+      <h2 class="visit-title">A short walk from anywhere in the CBD</h2>
+      <p class="visit-body">We're tucked into Little Bourke Street — easy to miss, impossible to forget once you know it's there. Look for the BBB lettering on the window.</p>
+      <div class="visit-info-block">
+        <p class="visit-label">Address</p>
+        <p class="visit-val">359 Little Bourke St<br>Melbourne VIC 3000</p>
+      </div>
+      <div class="visit-info-block">
+        <p class="visit-label">Hours</p>
+        <div class="hours-grid">
+          <div class="hours-row"><span class="hours-day">Monday</span><span class="hours-time">7am – 5pm</span></div>
+          <div class="hours-row"><span class="hours-day">Tuesday</span><span class="hours-time">7am – 5pm</span></div>
+          <div class="hours-row"><span class="hours-day">Wednesday</span><span class="hours-time">7am – 5pm</span></div>
+          <div class="hours-row"><span class="hours-day">Thursday</span><span class="hours-time">7am – 5pm</span></div>
+          <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time">7am – 5pm</span></div>
+          <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">7am – 5pm</span></div>
+          <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time">9am – 5pm</span></div>
+        </div>
+      </div>
+      <div class="visit-info-block">
+        <p class="visit-label">Contact</p>
+        <p class="visit-val"><a href="tel:+61396060449" style="color:var(--ink); text-decoration:none;">(03) 9606 0449</a><br><a href="mailto:enquiries@brotherbababudan.com.au" style="color:var(--rust); text-decoration:none;">enquiries@brotherbababudan.com.au</a></p>
+      </div>
+      <a href="https://maps.google.com/?q=359+Little+Bourke+St+Melbourne" class="visit-directions" target="_blank">Get Directions →</a>
+    </div>
+    <div>
+      <div class="visit-map">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.8340083785555!2d144.96208!3d-37.81351!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f1a6f7cb%3A0xdb43a6b4e9c71bf3!2sBrother%20Baba%20Budan!5e0!3m2!1sen!2sau!4v1699999999"
+          allowfullscreen=""
+          loading="lazy"
+          title="Brother Baba Budan location map">
+        </iframe>
+      </div>
+      <div style="margin-top:1.5rem; padding:1.5rem; background:#E8E0D5;">
+        <p style="font-size:0.78rem; color:var(--rust); letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.5rem;">Parking tip</p>
+        <p style="font-size:0.85rem; color:#6B5E52; line-height:1.6;">Easiest access via public transport — Flinders St, Melbourne Central, or Flagstaff stations are all within a 10-minute walk. Parking on Little Bourke is limited; try the Wilson car park on A'Beckett St.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Brother Baba Budan<span>A Seven Seeds Café · Melbourne CBD</span></div>
+      </div>
+      <div class="footer-cols">
+        <div>
+          <p class="footer-col-title">Navigate</p>
+          <ul class="footer-links">
+            <li><a href="#story">Our Story</a></li>
+            <li><a href="#coffee">Coffee</a></li>
+            <li><a href="#menu">Menu</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#visit">Visit Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Seven Seeds</p>
+          <ul class="footer-links">
+            <li><a href="https://www.sevenseeds.com.au" target="_blank">Seven Seeds Roasters</a></li>
+            <li><a href="https://www.instagram.com/brotherbababudan/" target="_blank">Instagram</a></li>
+            <li><a href="https://www.tripadvisor.com.au/Restaurant_Review-g255100-d794969-Reviews-Brother_Baba_Budan-Melbourne_Victoria.html" target="_blank">TripAdvisor</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">Contact</p>
+          <ul class="footer-links">
+            <li><a href="tel:+61396060449">(03) 9606 0449</a></li>
+            <li><a href="mailto:enquiries@brotherbababudan.com.au">Email us</a></li>
+            <li><a href="https://maps.google.com/?q=359+Little+Bourke+St+Melbourne" target="_blank">Get Directions</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Brother Baba Budan · Part of the Seven Seeds family</span>
+      <span>359 Little Bourke St, Melbourne VIC 3000</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  document.getElementById('hero-bg').classList.add('loaded');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
